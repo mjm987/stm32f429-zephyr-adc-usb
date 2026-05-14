@@ -1,58 +1,23 @@
 / {
 	zephyr,user {
-		/* ADC Pins */
-		adc0-ch3-gpios = <&gpioa 3 0>;   /* PA3  - ADC1_IN3  */
-		adc0-ch10-gpios = <&gpioc 0 0>;  /* PC0  - ADC1_IN10 */
-		adc0-ch13-gpios = <&gpioc 3 0>;  /* PC3  - ADC1_IN13 */
-		
-		/* Timer for ADC trigger (TIM3 or TIM4) */
-		adc-timer = <&tim3>;
+		/* ADC Analog Input Pins - physical connections */
+		adc-ch0 = <&gpioa 3>;   /* PA3  - ADC1_IN3  */
+		adc-ch1 = <&gpioc 0>;   /* PC0  - ADC1_IN10 */
+		adc-ch2 = <&gpioc 3>;   /* PC3  - ADC1_IN13 */
 	};
+};
 
-	/* Configure DMA2 Stream 0 for ADC1 */
-	&dma2 {
-		status = "okay";
-	};
+/* Enable DMA2 for ADC1 transfers */
+&dma2 {
+	status = "okay";
+};
 
-	/* Configure ADC1 */
-	&adc1 {
-		status = "okay";
-		pinctrl-0 = <&adc1_in3_pa3 &adc1_in10_pc0 &adc1_in13_pc3>;
-		pinctrl-names = "default";
-		#address-cells = <1>;
-		#size-cells = <0>;
+/* Enable ADC1 with basic configuration */
+&adc1 {
+	status = "okay";
+};
 
-		channel@3 {
-			reg = <3>;
-			zephyr,gain = "ADC_GAIN_1";
-			zephyr,reference = "ADC_REF_INTERNAL";
-			zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-			zephyr,resolution = <12>;
-		};
-
-		channel@a {
-			reg = <10>;
-			zephyr,gain = "ADC_GAIN_1";
-			zephyr,reference = "ADC_REF_INTERNAL";
-			zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-			zephyr,resolution = <12>;
-		};
-
-		channel@d {
-			reg = <13>;
-			zephyr,gain = "ADC_GAIN_1";
-			zephyr,reference = "ADC_REF_INTERNAL";
-			zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-			zephyr,resolution = <12>;
-		};
-	};
-
-	/* Configure Timer 3 for ADC trigger @ 1 MHz */
-	&tim3 {
-		status = "okay";
-		st,prescaler = <83>;  /* 168 MHz / 84 = 2 MHz */
-		st,countermode = <0>; /* Up counter */
-		st,period = <1>;      /* Reload = 1 → 2 MHz / 2 = 1 MHz */
-		st,repetitioncounter = <0>;
-	};
+/* Enable Timer 3 for ADC trigger */
+&timers3 {
+	status = "okay";
 };
