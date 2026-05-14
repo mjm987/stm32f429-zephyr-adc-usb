@@ -1,0 +1,30 @@
+/* STM32F429I Discovery Board - ADC/DMA/Timer Overlay */
+
+/ {
+	zephyr,user {
+		/* ADC Analog Input Pins */
+		adc-ch0 = <&gpioa 3>;   /* PA3  - ADC1_IN3  */
+		adc-ch1 = <&gpioc 0>;   /* PC0  - ADC1_IN10 */
+		adc-ch2 = <&gpioc 3>;   /* PC3  - ADC1_IN13 */
+	};
+};
+
+/* Enable DMA2 for ADC1 transfers */
+&dma2 {
+	status = "okay";
+};
+
+/* Enable ADC1 */
+&adc1 {
+	status = "okay";
+};
+
+/* Enable Timer 3 for ADC trigger */
+&timers3 {
+	status = "okay";
+};
+
+/* Disable keyboard scanner if it's causing issues */
+&kscan0 {
+	status = "disabled";
+};
