@@ -23,8 +23,3 @@
 &timers3 {
 	status = "okay";
 };
-
-/* Disable keyboard scanner if it's causing issues */
-&kscan0 {
-	status = "disabled";
-};
